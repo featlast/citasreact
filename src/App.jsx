@@ -1,19 +1,50 @@
-import {useState} from "react";
+import {useState, useEffect} from "react";
 import Header from "./Components/Header";
 import Formulario from "./Components/Formulario";
 import ListadoPacientes from "./Components/ListadoPacientes";
 
 function App() {
     const [pacientes, setPacientes] = useState([]);
-    const imprimirDos = () => {
-        console.log(2+2)
+    const [paciente, setPaciente] = useState({});
+
+    //Obtener lo que hay en el localstorage
+    useEffect(() => {
+        const obtenerLS = () => {
+            const pacientesLS = JSON.parse(localStorage.getItem('pacientes')) ?? [];
+            console.log(pacientesLS)
+            //setPacientes(pacientesLS)
+        }
+        obtenerLS()
+    }, []);
+
+    //agregando datos al localStorage
+    useEffect(() => {
+        localStorage.setItem('pacientes', JSON.stringify(pacientes))
+    }, [pacientes]);
+
+
+    //eliminar paciente
+    const eliminarPaciente = (id) => {
+        const pacientesEliminados = pacientes.filter(paciente => paciente.id !== id)
+        setPacientes(pacientesEliminados)
     }
+
+
     return (
         <div className="container mx-auto mt-20">
-            <Header numeros={1} isAdmin={false} fn={imprimirDos} />
+            <Header/>
             <div className={"mt-12 md:flex"}>
-                <Formulario/>
-                <ListadoPacientes/>
+                <Formulario
+                    pacientes={pacientes}
+                    setPacientes={setPacientes}
+                    paciente={paciente}
+                    setPaciente={setPaciente}
+                />
+                <ListadoPacientes
+                    pacientes={pacientes}
+                    setPaciente={setPaciente}
+                    eliminarPaciente={eliminarPaciente}
+                />
             </div>
 
 
