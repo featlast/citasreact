@@ -4,18 +4,23 @@ import Formulario from "./Components/Formulario";
 import ListadoPacientes from "./Components/ListadoPacientes";
 
 function App() {
-    const [pacientes, setPacientes] = useState([]);
+    //const pacientesLS = ;
+    //Con la instruccion en el useState obtiene lo que hay en el localstorage
+    const [pacientes, setPacientes] = useState((JSON.parse(localStorage.getItem('pacientes')) ?? []));
     const [paciente, setPaciente] = useState({});
 
+    console.log(pacientes)
+
+
     //Obtener lo que hay en el localstorage
-    useEffect(() => {
-        const obtenerLS = () => {
-            const pacientesLS = JSON.parse(localStorage.getItem('pacientes')) ?? [];
-            console.log(pacientesLS)
-            //setPacientes(pacientesLS)
-        }
-        obtenerLS()
-    }, []);
+    // useEffect(() => {
+    //     const obtenerLS = () => {
+    //         const pacientesLS = JSON.parse(localStorage.getItem('pacientes')) ?? [];
+    //         console.log(pacientesLS)
+    //         //setPacientes(pacientesLS)
+    //     }
+    //     obtenerLS()
+    // }, []);
 
     //agregando datos al localStorage
     useEffect(() => {
